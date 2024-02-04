@@ -9,7 +9,3 @@ As us Millenials and Gen Z'ers become that age and aquire enough wealth to purch
 ## Codebase
 
 The codebase is setup in jupyter notebooks, python, postgres, and eventually react (pending completion and in works!!!)
-
-## Repo Activity
-
-![Repo Activity](https://repobeats.axiom.co/api/embed/7866c9790deba0baf63ca1688b209130b306ea4e.svg "Repobeats analytics image")
