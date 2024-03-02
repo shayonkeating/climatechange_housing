@@ -1,8 +1,12 @@
-import React from 'react';
-import states from '../../data/states.json';
-import { TypewriterEffect } from "../app/components/ui/typewriter-effect";
+"use client"
 
-export function TypewriterEffectDemo() {
+import React from 'react';
+import states from '../app/data/states.json';
+import { TypewriterEffect } from "../app/components/ui/typewriter-effect";
+import { useRouter } from 'next/navigation'
+
+export default function HomePage() {
+  const router = useRouter();
   const words = [
     {
       text: "Rlty"
@@ -31,14 +35,11 @@ export function TypewriterEffectDemo() {
             ))}
           </select>
         </div>
-        <button className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-5 linear">
+        <button type="button" onClick={() => router.push('/loading')}
+          className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-5 linear">
           Start the Liveability Model
         </button>
       </div>
     </div>
   );
-  
-
-
 }
-export default TypewriterEffectDemo;
