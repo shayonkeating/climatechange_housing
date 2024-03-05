@@ -24,7 +24,11 @@ export default function About() {
           <p className="flex flex-col items-center text-white text-3xl mb-3" style={{ fontWeight: 550 }}>
             About
           </p>
-          <TypewriterEffect words={words} />
+            <Link href="/" passHref>
+                <div style={{cursor: 'pointer'}}>
+                    <TypewriterEffect words={words} />
+                </div>
+            </Link>
           <div className="mt-12">
             <p className="flex flex-col text-white text-2xl" style={{ fontWeight: 500, paddingLeft: '20px'}}>
               How it works
@@ -48,13 +52,13 @@ export default function About() {
                     <li>- Maximum temperature</li>
                     <li>- Minimum temperature</li>
                     </ul>
-                <p style={{marginTop: '15px', marginBottom: '15px'}}>These six data points, per each county, over the last 134 years (data goes 
+                <p style={{marginTop: '25px', marginBottom: '25px'}}>These six data points, per each county, over the last 134 years (data goes 
                 all the way back to 1890 😱) can provide some valuable insight to where the climate is going to be going in 
                 the next 25-50 years. And albeit it is not perfect, like I said, <a href="https://www.nature.com/articles/s41612-020-00148-5" style={{ 
                     fontWeight: 'bold', textDecoration: 'underline'}}>
                 climate change is complex and the factors are changing every day </a>
                 </p>
-                <p style={{marginTop: '15px', marginBottom: '15px'}}>This model takes this data, provides Z-scores based on a county, then calculates 
+                <p style={{marginTop: '25px', marginBottom: '25px'}}>This model takes this data, provides Z-scores based on a county, then calculates 
                 the rolling mean and rolling standard deviation of these Z-scores.  Following this, we can divide the data into a training subset and 
                 a valid subset, which will allow for the Machine Learning model to be built using the time-series data. Now for the model we are using 
                 a Seasonal Autoregressive Integrated Moving Average with Exogenous Regressors model. Or more kindly called: a SARIMAX model. This model 
@@ -62,15 +66,15 @@ export default function About() {
                 indeed seasons. Since we already have the data we can set a period of 12 months to it, representing the standard 1 year and really put 
                 this model to work.
                 </p>
-                <p style={{marginTop: '15px', marginBottom: '15px'}}>This model will then use the training data and the valid data and provide a future 
+                <p style={{marginTop: '25px', marginBottom: '25px'}}>This model will then use the training data and the valid data and provide a future 
                 forecast of our data. Then we can use a linear regression on our predicted data to see which direction we will be going. This is all 
                 ran for each and every single data point, hence why it takes a second to work!
                 </p>
-                <p style={{marginTop: '15px', marginBottom: '15px'}}>After this the Liveability Index can be finally calculated. The index is weighted 
+                <p style={{marginTop: '25px', marginBottom: '25px'}}>After this the Liveability Index can be finally calculated. The index is weighted 
                 using each data point for a score of 0-100. 0 meaning it is an absolute terrible place to live and you should move out ASAP and 
                 100 meaning it will be a great place to lay down some roots.
                 </p>
-                <p style={{marginTop: '15px', marginBottom: '80px', textAlign: 'center'}}>Climate change is freakin scary man!
+                <p style={{marginTop: '25px', marginBottom: '80px', textAlign: 'center'}}>Climate change is freakin scary man!
                 </p>
                 </div>
                 <p className="flex flex-col text-white text-2xl" style={{ fontWeight: 500, paddingLeft: '20px'}}>
@@ -96,9 +100,13 @@ export default function About() {
                     <Image src="/images/ts.png" height={50} width={50} alt="Image_007" />
                     </div>  
                 </div>
+                <p className="flex flex-col text-white text-s" style={{ fontWeight: 200, padding: '50', textAlign: 'center'}}>
+                © 2024 Made by Shayon Keating
+                </p>
             </div>
         </div>
-      ); 
+      );
+
 }
 
 
