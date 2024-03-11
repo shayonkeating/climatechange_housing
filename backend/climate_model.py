@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
-Script will extract the daily data from onthesnow.com, reformat into a readable format, \
-then merge the daily ski report with a set csv that has the rest of the information for \
-each of the ski resorts on it. It will return the dataframe that houses that info.
+Script will run the ML model for climate change on whatever is requested for it
 
 Author: Shayon Keating
 Date: February 11, 2024
@@ -11,24 +9,21 @@ Date: February 11, 2024
 # import reqs
 import numpy as np
 import pandas as pd
-import plotly.graph_objs as go
-import matplotlib.pyplot as plt
-import datetime, statsmodels, warnings
-import statsmodels.api as sm
+import os
+import warnings
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.seasonal import seasonal_decompose 
 warnings.simplefilter("ignore")
 from math import sqrt
-from datetime import date, timedelta
 from matplotlib.ticker import StrMethodFormatter
 
+# constants to not change
 num_heating_days_state = pd.read_csv('processed_data/num_heating_days_state.csv')
 num_cooling_days_state = pd.read_csv('processed_data/num_cooling_days_state.csv')
 preciptation_state = pd.read_csv('processed_data/preciptation_state.csv')
 temperature_avg_state = pd.read_csv('processed_data/temperature_avg_state.csv')
 temperature_max_state = pd.read_csv('processed_data/temperature_max_state.csv')
 temperature_min_state = pd.read_csv('processed_data/temperature_min_state.csv')
-
 # make the data frame
 num_heating_days_state = pd.DataFrame(num_heating_days_state)
 num_cooling_days_state = pd.DataFrame(num_cooling_days_state)
@@ -45,13 +40,6 @@ def select_data(df, val1, val2):
     else:
         return result
 
-heat = select_data(num_heating_days_state, state, county)
-cool = select_data(num_cooling_days_state, state, county)
-precip = select_data(preciptation_state, state, county)
-temp_a = select_data(temperature_avg_state, state, county)
-temp_max = select_data(temperature_max_state, state, county)
-temp_min = select_data(temperature_min_state, state, county)
-
 def basic_stats(df, year, *columns):
     """Function calculates mean and std dev, then uses that to calcualte z-scores to find how far
     from the mean each value is, will return the z-scores"""
@@ -62,13 +50,6 @@ def basic_stats(df, year, *columns):
     cols = ['year'] + list(columns)
     z_scores = z_scores[cols]
     return z_scores
-
-heater_z = pd.DataFrame(basic_stats(heat, "year", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec")).fillna(0)
-cooler_z = pd.DataFrame(basic_stats(cool, "year", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec")).fillna(0)
-precip_z = pd.DataFrame(basic_stats(precip, "year", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec")).fillna(0)
-temp_a_z = pd.DataFrame(basic_stats(temp_a, "year", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec")).fillna(0)
-temp_max_z = pd.DataFrame(basic_stats(temp_max, "year", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec")).fillna(0)
-temp_min_z = pd.DataFrame(basic_stats(temp_min, "year", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec")).fillna(0)
 
 def prep_time_series(df, value_name='value'):
     """Transform to a time series with a single column."""
@@ -86,12 +67,10 @@ def process_and_model(df, value_name='value'):
     """Process the dataframe and apply the SARIMAX model to calculate the slope."""
     df_prep = prep_time_series(df, value_name)
 
-    # Splitting into train and validation sets
-    Train = df_prep[df_prep.index.year < 1980].reset_index()
+    Train = df_prep[df_prep.index.year < 1980].reset_index() # split at 1980
     Valid = df_prep[df_prep.index.year >= 1980].reset_index()
 
-    window_size = 12
-    # Calculate rolling mean and std for Train and Valid sets
+    window_size = 12 # set window size for a period of 12 for the year
     for dataset in [Train, Valid]:
         dataset['rolling_mean'] = dataset[value_name].rolling(window=window_size).mean().fillna(0)
         dataset['rolling_std'] = dataset[value_name].rolling(window=window_size).std().fillna(0)
@@ -101,12 +80,12 @@ def process_and_model(df, value_name='value'):
                     order=(1, 0, 1), seasonal_order=(1, 1, 1, 12))
     results = model.fit()
 
-    # Predict on the validation set
     predictions = results.get_prediction(start=Valid.index[0], end=Valid.index[-1], 
                                          exog=Valid[['rolling_mean', 'rolling_std']])
     Valid['predictions'] = predictions.predicted_mean
 
     slope = calculate_slope_from_predictions(Valid, value_name)
+
     return slope
 
 def calculate_slope_from_predictions(Valid, value_name):
@@ -117,10 +96,6 @@ def calculate_slope_from_predictions(Valid, value_name):
     slope, intercept = np.polyfit(prediction_dates_ordinal, Valid['predictions'], 1)
     return slope
 
-datasets = [heater_z, cooler_z, precip_z, temp_a_z, temp_max_z, temp_min_z]
-dataset_names = ['heater_z', 'cooler_z', 'precip_z', 'temp_a_z', 'temp_max_z', 'temp_min_z']
-slope_values = {name: process_and_model(dataset, 'z-score') for dataset, name in zip(datasets, dataset_names)}
-
 weights = {
     'heater_z': 25,
     'cooler_z': 25,
@@ -130,20 +105,31 @@ weights = {
     'temp_min_z': 6.25
 }
 
-# Calculate the composite metric for climatological stability
-max_slope = max(abs(slope) for slope in slope_values.values())
-composite_metric = sum((abs(slope_values[name]) / max_slope) * 100 * (weights[name] / 100) for name in dataset_names)
+def main(state, county):
+    # Use the provided state and county to select data
+    heat = select_data(num_heating_days_state, state, county)
+    cool = select_data(num_cooling_days_state, state, county)
+    precip = select_data(preciptation_state, state, county)
+    temp_a = select_data(temperature_avg_state, state, county)
+    temp_max = select_data(temperature_max_state, state, county)
+    temp_min = select_data(temperature_min_state, state, county)
+    
+    # Analysis part remains the same, now uses the filtered data based on state and county
+    datasets = [heat, cool, precip, temp_a, temp_max, temp_min]
+    dataset_names = ['heater_z', 'cooler_z', 'precip_z', 'temp_a_z', 'temp_max_z', 'temp_min_z']
+    slope_values = {name: process_and_model(pd.DataFrame(basic_stats(dataset, "year", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sept", "oct", "nov", "dec")).fillna(0), 'z-score') for dataset, name in zip(datasets, dataset_names)}
 
-# Ensure the composite metric is within the desired range
-composite_metric = min(composite_metric, 100)
+    # The rest of the calculation for composite metric
+    max_slope = max(abs(slope) for slope in slope_values.values())
+    composite_metric = sum((abs(slope_values[name]) / max_slope) * 100 * (weights[name] / 100) for name in dataset_names)
+    composite_metric = min(composite_metric, 100)
 
-# Print out the composite metric and slope values
-print(f"Composite Metric for Climatological Stability: {composite_metric:.2f}")
-for name, slope in slope_values.items():
-    print(f"{name} Slope: {slope:.10f}")
-
-def main():
-
+    # Print out the composite metric and slope values
+    print(f"Composite Metric for Climatological Stability {county}, {state}: {composite_metric:.2f}")
+    for name, slope in slope_values.items():
+        print(f"{name} Slope: {slope:.10f}")
 
 if __name__ == "__main__":
-    main()
+    state = input("Enter the state: ")
+    county = input("Enter the county: ")
+    main(state, county)
