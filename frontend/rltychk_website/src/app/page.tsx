@@ -17,7 +17,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center h-[40rem]">
+    <><div className="flex flex-col items-center justify-center h-[40rem]">
       <p className="text-neutral-600 dark:text-neutral-200 text-xl mb-10">
         How is climate change going to affect us?
       </p>
@@ -40,6 +40,10 @@ export default function HomePage() {
           Start the Liveability Model
         </button>
       </div>
-    </div>
+    </div><div className='absolute bottom-0 left-0 right-0 p-10'>
+        <p className="flex flex-col text-white text-s" style={{ fontWeight: 200, padding: '50', textAlign: 'center' }}>
+          © 2024 Made by Shayon Keating
+        </p>
+      </div></>
   );
 }

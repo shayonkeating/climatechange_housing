@@ -1,16 +1,24 @@
 "use client"
 
 import React from "react";
+import { TypewriterEffect } from "../../app/components/ui/typewriter-effect";
+import { useRouter } from 'next/navigation'
 
-export default function Loading() {
+export default function loading_page() {
+  const router = useRouter();
+  const words = [
+    {
+      text: "Loading"
+    },
+    {
+      text: "..."
+    },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center h-[40rem]">
-      <p className="text-neutral-600 dark:text-neutral-200 text-xl mb-10">
-        Loading...
-        Doing the Climate Model...
-        One Sec...
-      </p>
+      <TypewriterEffect words={words} />
+      <div className="flex flex-col items-center space-y-4 mt-4"></div>
     </div>
-  );
-}
-
+  )
+};
