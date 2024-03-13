@@ -13,22 +13,13 @@ import subprocess
 
 script_path = "climate_model/climate_model.py"
 
-state_name = "Tennessee"
+state_name = "Wyoming"
 
 # list of all counties:
 counties = [
-    "Anderson", "Bedford", "Benton", "Bledsoe", "Blount", "Bradley", "Campbell", "Cannon",
-    "Carroll", "Carter", "Cheatham", "Chester", "Claiborne", "Clay", "Cocke", "Coffee",
-    "Crockett", "Cumberland", "Davidson", "Decatur", "DeKalb", "Dickson", "Dyer", "Fayette",
-    "Fentress", "Franklin", "Gibson", "Giles", "Grainger", "Greene", "Grundy", "Hamblen",
-    "Hamilton", "Hancock", "Hardeman", "Hardin", "Hawkins", "Haywood", "Henderson", "Henry",
-    "Hickman", "Houston", "Humphreys", "Jackson", "Jefferson", "Johnson", "Knox", "Lake",
-    "Lauderdale", "Lawrence", "Lewis", "Lincoln", "Loudon", "McMinn", "McNairy", "Macon",
-    "Madison", "Marion", "Marshall", "Maury", "Meigs", "Monroe", "Montgomery", "Moore",
-    "Morgan", "Obion", "Overton", "Perry", "Pickett", "Polk", "Putnam", "Rhea", "Roane",
-    "Robertson", "Rutherford", "Scott", "Sequatchie", "Sevier", "Shelby", "Smith", "Stewart",
-    "Sullivan", "Sumner", "Tipton", "Trousdale", "Unicoi", "Union", "Van Buren", "Warren",
-    "Washington", "Wayne", "Weakley", "White", "Williamson", "Wilson"
+    "Albany", "Big Horn", "Campbell", "Carbon", "Converse", "Crook", "Fremont", "Goshen", "Hot Springs",
+    "Johnson", "Laramie", "Lincoln", "Natrona", "Niobrara", "Park", "Platte", "Sheridan", "Sublette",
+    "Sweetwater", "Teton", "Uinta", "Washakie", "Weston"
 ]
 
 
