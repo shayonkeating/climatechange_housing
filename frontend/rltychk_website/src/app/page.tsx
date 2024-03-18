@@ -1,12 +1,14 @@
 "use client"
 
-import React from 'react';
+import React, {useState} from 'react';
 import states from '../app/data/states.json';
 import { TypewriterEffect } from "../app/components/ui/typewriter-effect";
 import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
   const router = useRouter();
+  const [state, setState] = useState(''); // handle the state for user input of state
+  const [county, setCounty] = useState(''); // handle the state for user input of county
   const words = [
     {
       text: "Rlty"
@@ -15,6 +17,8 @@ export default function HomePage() {
       text: "Chk"
     },
   ];
+
+ 
 
   return (
     <><div className="flex flex-col items-center justify-center h-[40rem]">
@@ -27,11 +31,11 @@ export default function HomePage() {
           <label htmlFor="countyInput" className="w-80 h-10 rounded-xl text-white text-m flex items-center justify-center">
             Enter a US county to get started:
           </label>
-          <input id="countyInput" type="text" placeholder="ie San Diego..." className="w-40 h-10 rounded-xl border dark:border-white border-transparent text-black px-4" />
-          <select id="dropdownMenu" className="w-35 h-10 rounded-xl border dark:border-white border-transparent bg-white text-black px-4">
+          <input id="countyInput" type="text" placeholder="ie San Diego..." value={county} onChange={(e) => setCounty(e.target.value)} className="w-40 h-10 rounded-xl border dark:border-white border-transparent text-black px-4" />
+          <select id="dropdownMenu" value={state} onChange={(e) => setState(e.target.value)}  className="w-35 h-10 rounded-xl border dark:border-white border-transparent bg-white text-black px-4">
             <option value="">Select a State</option>
             {states.map((state, index) => (
-              <option key={index} value={state.abbreviation}>{state.name} ({state.abbreviation})</option>
+              <option key={index} value={state.name}>{state.name}</option>
             ))}
           </select>
         </div>

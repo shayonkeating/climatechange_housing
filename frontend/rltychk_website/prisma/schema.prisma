@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ClimateScore {
+  state            String?  @db.VarChar(255)
+  county           String?  @db.VarChar(255)
+  composite_score  Decimal? @db.Decimal
+  heater_z_slope   Decimal? @db.Decimal
+  cooler_z_slope   Decimal? @db.Decimal
+  precip_z_slope   Decimal? @db.Decimal
+  temp_a_z_slope   Decimal? @db.Decimal
+  temp_max_z_slope Decimal? @db.Decimal
+  temp_min_z_slope Decimal? @db.Decimal
+
+  @@map("climate_score")
+  @@ignore
+}
