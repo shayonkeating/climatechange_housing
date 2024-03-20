@@ -18,7 +18,36 @@ export default function HomePage() {
     },
   ];
 
- 
+  const handleSubmit = async () => {
+    try {
+      await router.push('/loading'); // nav to loading page as soon as you hit submit
+  
+      // Send the user input to the API
+      const response = await fetch('/api/query', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ county, state }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        // Consider using local storage or a global state if data is too large
+        sessionStorage.setItem('climateData', JSON.stringify(data));
+        await router.push('/results');
+      } else {
+        // Handle errors
+        console.error("Error fetching data:", data.error);
+        await router.push('/error');
+      }
+    } catch (error) {
+      console.error("Navigation or Fetch error:", error);
+      // Handle the error appropriately
+    }
+  };
+  
 
   return (
     <><div className="flex flex-col items-center justify-center h-[40rem]">
@@ -39,7 +68,7 @@ export default function HomePage() {
             ))}
           </select>
         </div>
-        <button type="button" onClick={() => router.push('/loading')}
+        <button type="button" onClick={handleSubmit}
           className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-5 linear">
           Start the Liveability Model
         </button>

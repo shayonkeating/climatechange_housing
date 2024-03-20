@@ -1,35 +1,49 @@
 // pages/results.jsx
-import { PrismaClient } from '@prisma/client';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-const prisma = new PrismaClient();
+import React, {useState, useEffect} from 'react';
+import { TypewriterEffect } from "../../app/components/ui/typewriter-effect";
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    // Extract county and state from the request body
-    const { county, state } = req.body;
-
-    try {
-      // Query the database for climate scores matching the provided county and state
-      const climateScores = await prisma.climateScore.findMany({
-        where: {
-          AND: [
-            { County: { equals: county, mode: 'insensitive' } },
-            { State: { equals: state, mode: 'insensitive' } },
-          ],
+export default function resultsPage() {
+    const score = 85;
+    const explanation = score >= 80 ? 'Excellent Score!' : 'Needs Improvement.';
+    const words = [
+        {
+          text: "Rlty"
         },
-      });
+        {
+          text: "Chk"
+        },
+      ];
 
-      // Respond with the fetched data
-      res.status(200).json(climateScores);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-      res.status(500).json({ error: "Failed to fetch data" });
-    }
-  } else {
-    // If the request method is not POST, return a 405 Method Not Allowed
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+      return (
+        <div className="flex flex-col items-center justify-start h-[40rem] mt-14">
+            <p className="flex flex-col items-center text-white text-3xl mb-3" style={{ fontWeight: 550 }}>
+                Results
+            </p>
+          <Link href="/" passHref>
+              <div style={{cursor: 'pointer'}}>
+                  <TypewriterEffect words={words} />
+              </div>
+          </Link>
+        <div className="flex w-full justify-around items-center mb-5">
+            <div className="text-white text-2xl" style={{ fontWeight: 300 }}>
+                Score: {score}
+            </div>
+            <div className="text-white" style={{ fontWeight: 200 }}>
+                {explanation}
+            </div>
+        </div>
+        <Link href="/about" passHref>
+              <div style={{cursor: 'pointer'}}>
+              <a className="text-white underline">Learn more about the scoring</a>
+              </div>
+          </Link>
+        
+            <p className="flex flex-col text-white text-s" style={{ fontWeight: 200, padding: '50', textAlign: 'center'}}>
+                © 2024 Made by Shayon Keating
+            </p>
+        </div>
+      );
 }
-

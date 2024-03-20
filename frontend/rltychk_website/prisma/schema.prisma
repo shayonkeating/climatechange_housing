@@ -7,10 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model ClimateScore {
-  state            String?  @db.VarChar(255)
-  county           String?  @db.VarChar(255)
+  state            String
+  county           String
   composite_score  Decimal? @db.Decimal
   heater_z_slope   Decimal? @db.Decimal
   cooler_z_slope   Decimal? @db.Decimal
@@ -19,6 +18,6 @@ model ClimateScore {
   temp_max_z_slope Decimal? @db.Decimal
   temp_min_z_slope Decimal? @db.Decimal
 
+  @@id([state, county])
   @@map("climate_score")
-  @@ignore
 }
