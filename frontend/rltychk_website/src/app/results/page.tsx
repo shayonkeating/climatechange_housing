@@ -8,8 +8,16 @@ import { TypewriterEffect } from "../../app/components/ui/typewriter-effect";
 import Link from 'next/link';
 
 export default function ResultsPage() {
-    const [score, setScore] = useState(null);
-    const [explanation, setExplanation] = useState('');
+    const [data, setData] = useState(null);
+  
+    useEffect(() => {
+      const storedData = sessionStorage.getItem('climateData');
+      if (storedData) {
+        setData(JSON.parse(storedData));
+      }
+    }, []);
+  
+    if (!data) return <div>Loading...</div>;
     const router = useRouter();
     const words = [
         {
@@ -19,38 +27,6 @@ export default function ResultsPage() {
           text: "Chk"
         },
       ];
-
-    useEffect(() => {
-        // Ensure county and state are available before fetching
-        if (router.isReady) {
-            const { county, state } = router.query;
-
-            // Example fetch call (adapt URL/path as necessary)
-            fetch(`/api/climate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ county, state }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.length > 0) {
-                    // Assuming data[0].composite_score contains the score
-                    const fetchedScore = data[0].composite_score;
-                    setScore(fetchedScore);
-                    setExplanation(fetchedScore >= 80 ? 'Excellent Score!' : 'Needs Improvement.');
-                } else {
-                    // Handle no data found
-                    console.log("No data found for the specified location.");
-                }
-            })
-            .catch(error => console.error("Failed to fetch data:", error));
-        }
-    }, [router.isReady, router.query]);
-
-    // Placeholder content if score hasn't been fetched yet
-    if (score === null) return <div>Loading...</div>;
 
       return (
         <div className="flex flex-col items-center justify-start h-[40rem] mt-14">
@@ -64,10 +40,7 @@ export default function ResultsPage() {
           </Link>
         <div className="flex w-full justify-around items-center mb-5">
             <div className="text-white text-2xl" style={{ fontWeight: 300 }}>
-                Score: {score}
-            </div>
-            <div className="text-white" style={{ fontWeight: 200 }}>
-                {explanation}
+                Score: {data.composite_score}
             </div>
         </div>
         <Link href="/about" passHref>
