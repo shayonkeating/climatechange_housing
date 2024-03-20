@@ -1,9 +1,12 @@
+// home page
+
 "use client"
 
 import React, {useState} from 'react';
 import states from '../app/data/states.json';
 import { TypewriterEffect } from "../app/components/ui/typewriter-effect";
 import { useRouter } from 'next/navigation'
+
 
 export default function HomePage() {
   const router = useRouter();

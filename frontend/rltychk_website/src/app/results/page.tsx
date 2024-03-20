@@ -1,13 +1,16 @@
 // pages/results.jsx
 
+"use client"
+
 import React, {useState, useEffect} from 'react';
+import { useRouter } from 'next/router'; 
 import { TypewriterEffect } from "../../app/components/ui/typewriter-effect";
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function resultsPage() {
-    const score = 85;
-    const explanation = score >= 80 ? 'Excellent Score!' : 'Needs Improvement.';
+export default function ResultsPage() {
+    const [score, setScore] = useState(null);
+    const [explanation, setExplanation] = useState('');
+    const router = useRouter();
     const words = [
         {
           text: "Rlty"
@@ -16,6 +19,38 @@ export default function resultsPage() {
           text: "Chk"
         },
       ];
+
+    useEffect(() => {
+        // Ensure county and state are available before fetching
+        if (router.isReady) {
+            const { county, state } = router.query;
+
+            // Example fetch call (adapt URL/path as necessary)
+            fetch(`/api/climate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ county, state }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    // Assuming data[0].composite_score contains the score
+                    const fetchedScore = data[0].composite_score;
+                    setScore(fetchedScore);
+                    setExplanation(fetchedScore >= 80 ? 'Excellent Score!' : 'Needs Improvement.');
+                } else {
+                    // Handle no data found
+                    console.log("No data found for the specified location.");
+                }
+            })
+            .catch(error => console.error("Failed to fetch data:", error));
+        }
+    }, [router.isReady, router.query]);
+
+    // Placeholder content if score hasn't been fetched yet
+    if (score === null) return <div>Loading...</div>;
 
       return (
         <div className="flex flex-col items-center justify-start h-[40rem] mt-14">
