@@ -22,8 +22,9 @@ export default function HomePage() {
   ];
 
   const handleSubmit = async () => {
+    console.log("handleSubmit called")
     try {
-      await router.push('/loading'); // nav to loading page as soon as you hit submit
+      //await router.push('/loading'); // nav to loading page as soon as you hit submit
   
       // Send the user input to the API
       const response = await fetch('/api/query', {
@@ -71,7 +72,7 @@ export default function HomePage() {
             ))}
           </select>
         </div>
-        <button type="button" onClick={handleSubmit}
+        <button type="button" onClick={handleSubmit} // correctly handles onsubmit req
           className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-5 linear">
           Start the Liveability Model
         </button>
