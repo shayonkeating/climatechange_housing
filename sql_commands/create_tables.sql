@@ -191,3 +191,20 @@ CREATE TABLE num_cooling_days_state (
 COPY num_cooling_days_state FROM '/num_cooling_days_state.csv' DELIMITER ',' CSV HEADER;
 
 select * from num_cooling_days_state limit 5;
+
+
+-- delete duplicates using CTE
+
+WITH DuplicateRank AS (
+    SELECT ctid,
+           ROW_NUMBER() OVER(
+               PARTITION BY state, county, composite_score, heater_z_slope, cooler_z_slope,
+               precip_z_slope, temp_a_z_slope, temp_max_z_slope, temp_min_z_slope
+               ORDER BY state, county 
+           ) AS rn
+    FROM climate_score
+)
+DELETE FROM climate_score
+WHERE ctid IN (
+    SELECT ctid FROM DuplicateRank WHERE rn > 1
+);
