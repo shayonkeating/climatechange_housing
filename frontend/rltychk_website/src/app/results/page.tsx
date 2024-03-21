@@ -1,11 +1,10 @@
 // pages/results.jsx
 "use client"
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { TypewriterEffect } from "../../app/components/ui/typewriter-effect";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-// Updated interface based on your JSON structure
 interface ClimateScore {
     state: string;
     county: string;
@@ -23,6 +22,10 @@ interface ClimateScore {
   }
   
   export default function ResultsPage() {
+    const router = useRouter();
+    const handleClick = () => {
+        router.push('/about');
+    }
       const [data, setData] = useState<ClimateData | null>(null);
   
       useEffect(() => {
@@ -33,7 +36,31 @@ interface ClimateScore {
         }
       }, []);
   
-      if (!data || data.climateScores.length === 0) return <div>Loading...</div>;
+      if (!data || data.climateScores.length === 0) {
+        return (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            textAlign: 'center',
+            color: 'white',
+            width: '100%',
+            fontSize: '24px',
+            gap: '20px'
+            }}>
+            Whoopsies climate cowboy 🤠! <br />
+            Looks like you spelled something wrong <br />
+            or it doesn't exist.
+            <Link href="/" passHref>
+                <div style={{cursor: 'pointer'}}>
+                    <a className="text-white underline text-2xl">👋 Let's take you back home...</a>
+                </div>
+            </Link>
+        </div>
+    );
+  }
 
       const firstScore = data.climateScores[0];
       const scoreValue = parseFloat(firstScore.composite_score);
@@ -53,7 +80,7 @@ interface ClimateScore {
       } else if (scoreValue >= 60) {
         explanation = (
             <>
-            This area will be impacted by climate change to an extent. Analyze this result in context!
+            This area will be definitely be impacted by climate change. Analyze this result in context!
             Places with this score fall further north so that could mean less snow ☃️ and warmer summers. 😎
             The ski industry will not like this. ⛷️
             </>
@@ -70,7 +97,7 @@ interface ClimateScore {
         explanation = (
             <>
             Solid choice ✌️! These places are good living spots in the continental US and a great place to settle down.
-            Climate change will still affect to some extent especially if you are by the ocean 🌊 or in the great plains. Rising sea levels
+            Climate change will still affect here to some extent especially if you are by the ocean 🌊 or in the great plains. Rising sea levels
             and intense storms are way scary! ⛈️
             </>
         );
@@ -98,22 +125,23 @@ interface ClimateScore {
                   </div>
               </Link>
               <div className="score-container mb-10">
-                    <div className="text-white text-4xl" style={{ fontWeight: 500, textAlign: 'center', marginBottom: '15px'}}>
+                    <div className="text-white text-4xl" style={{ fontWeight: 500, textAlign: 'center', marginBottom: '20px'}}>
                         {firstScore.county}, {firstScore.state}
                     </div>
-                    <div className="text-white text-5xl" style={{ fontWeight: 500, textAlign: 'center' }}>
+                    <div className="text-white text-6xl" style={{ fontWeight: 500, textAlign: 'center' }}>
                         {firstScore.composite_score}
                     </div>
                 </div>
                 <div className="explanation text-white text-xl" style={{ fontWeight: 300, maxWidth: '600px', margin: '0 auto', marginBottom: '30px'}}>
                     {explanation}
                 </div>
-              <Link href="/about" passHref>
-                  <div style={{cursor: 'pointer', marginBottom: '100px'}}>
-                      <a className="text-white underline text-xl">👋 Learn more about the scoring</a>
-                  </div>
-              </Link>
-              <p className="flex flex-col text-white text-s" style={{ fontWeight: 200, padding: '50', textAlign: 'center'}}>
+                <div className="flex justify-center items-center mt-4">
+                    <button type="button" onClick={handleClick}
+                    className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-5 ease-in-out flex items-center justify-center cursor-pointer">
+                        👋 Learn more about the scoring
+                    </button>
+                </div>
+              <p className="flex flex-col text-white text-s" style={{ fontWeight: 200, padding: '50', textAlign: 'center', paddingTop: '50px'}}>
                   © 2024 Made by Shayon Keating
               </p>
           </div>

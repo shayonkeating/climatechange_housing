@@ -13,7 +13,7 @@ export default function HomePage() {
   const words = [{text: "Rlty"}, {text: "Chk"},]; // words for typewriter effect
   const [state, setState] = useState(''); // handle the state for user input of state
   const [county, setCounty] = useState(''); // handle the state for user input of county
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  const delay = (ms: number | undefined) => new Promise(resolve => setTimeout(resolve, ms));
   const handleSubmit = async () => {
     console.log("handleSubmit called");
     try {
@@ -22,7 +22,7 @@ export default function HomePage() {
   
       // Navigate to loading page
       await router.push('/loading');
-      await delay(780)
+      await delay(650)
   
       // Send the user input to the API
       const response = await fetch(url, {
