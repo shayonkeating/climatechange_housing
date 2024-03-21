@@ -27,6 +27,7 @@ interface ClimateScore {
   
       useEffect(() => {
         const storedData = sessionStorage.getItem('climateData');
+        console.log("Retrieved Data:", storedData); // console log for debugging 
         if (storedData) {
           setData(JSON.parse(storedData));
         }
@@ -52,7 +53,7 @@ interface ClimateScore {
               </Link>
               <div className="flex w-full justify-around items-center mb-5">
                   <div className="text-white text-2xl" style={{ fontWeight: 300 }}>
-                      Score: {firstScore.composite_score} // Displaying the composite score
+                      Score: {firstScore.composite_score}
                   </div>
                   <div className="text-white" style={{ fontWeight: 200 }}>
                       {explanation}
