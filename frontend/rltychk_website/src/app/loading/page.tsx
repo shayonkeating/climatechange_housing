@@ -5,7 +5,7 @@ import { TypewriterEffect } from "../../app/components/ui/typewriter-effect-load
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from "react";
 
-export default function loading_page() {
+export default function loadingPage() {
   const router = useRouter();
   const [effectKey, setEffectKey] = useState(0); // key frame effect
   const words = [
