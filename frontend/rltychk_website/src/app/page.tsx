@@ -50,7 +50,7 @@ export default function HomePage() {
   
   return (
     <><div className="flex flex-col items-center justify-center h-[40rem]">
-      <p className="text-white text-xl mb-10">
+      <p className="flex flex-col text-center items-center text-white text-xl mb-10">
         How is climate change going to affect us?
       </p>
       <TypewriterEffect words={words} />
