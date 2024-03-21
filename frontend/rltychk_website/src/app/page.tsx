@@ -10,39 +10,35 @@ import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
   const router = useRouter();
+  const words = [{text: "Rlty"}, {text: "Chk"},]; // words for typewriter effect
   const [state, setState] = useState(''); // handle the state for user input of state
   const [county, setCounty] = useState(''); // handle the state for user input of county
-  const words = [
-    {
-      text: "Rlty"
-    },
-    {
-      text: "Chk"
-    },
-  ];
-
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
   const handleSubmit = async () => {
-    console.log("handleSubmit called")
+    console.log("handleSubmit called");
     try {
-      //await router.push('/loading'); // nav to loading page as soon as you hit submit
+      const query = new URLSearchParams({ county, state }).toString();
+      const url = `/api/query?${query}`;
+  
+      // Navigate to loading page
+      await router.push('/loading');
+      await delay(1000)
   
       // Send the user input to the API
-      const response = await fetch('/api/query', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method: 'GET', // Now using GET method
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json', // Adjusted header for GET
         },
-        body: JSON.stringify({ county, state }),
       });
   
       const data = await response.json();
   
       if (response.ok) {
-        // Consider using local storage or a global state if data is too large
+        // Storing and navigating as before
         sessionStorage.setItem('climateData', JSON.stringify(data));
         await router.push('/results');
       } else {
-        // Handle errors
         console.error("Error fetching data:", data.error);
         await router.push('/error');
       }
@@ -52,7 +48,6 @@ export default function HomePage() {
     }
   };
   
-
   return (
     <><div className="flex flex-col items-center justify-center h-[40rem]">
       <p className="text-neutral-600 dark:text-neutral-200 text-xl mb-10">
