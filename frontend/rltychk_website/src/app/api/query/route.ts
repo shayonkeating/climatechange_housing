@@ -23,6 +23,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ climateScores }, { status: 200 }); //200 response okay
   } catch (error) {
     console.error('Error executing query:', error);
-    return NextResponse.json({ error: 'An error occurred' }, { status: 500 }); // 500 error cant fulfull
+    return NextResponse.json({ error: 'An error occurred 500' }, { status: 500 }); // 500 error cant fulfull
   }
 }
