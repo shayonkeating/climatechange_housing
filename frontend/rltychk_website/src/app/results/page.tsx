@@ -37,6 +37,8 @@ interface ClimateScore {
 
       const firstScore = data.climateScores[0];
       const scoreValue = parseFloat(firstScore.composite_score);
+      const countyView = parseFloat(firstScore.county);
+      const stateView = parseFloat(firstScore.state);
 
       let explanation;
       if (scoreValue >= 80) {
@@ -64,12 +66,20 @@ interface ClimateScore {
             Just be careful of future storms and sea level rising! ⛈️
             </>
         );
+      } else if (scoreValue >= 20) {
+        explanation = (
+            <>
+            Solid choice ✌️! These places are good living spots in the continental US and a great place to settle down.
+            Climate change will still affect to some extent especially if you are by the ocean 🌊 or in the great plains. Rising sea levels
+            and intense storms are way scary! ⛈️
+            </>
+        );
       } else {
         explanation = (
             <>
             Homie, did you just find the best place to live? These places exist in the high desert and mountains 
             (usually) 🏞️. If you can make it here and find a sweet spot to live, consider the climate to treat you right.
-            Just try not to live near the ocean, this model does not consider sea level rise or storms! ⛈️
+            Just try not to live near the ocean, this model does not consider sea level rise or storms and that could mess you up! ⛈️
             </>
         );
       }
@@ -88,8 +98,8 @@ interface ClimateScore {
                   </div>
               </Link>
               <div className="score-container mb-10">
-                    <div className="text-white text-5xl" style={{ fontWeight: 500, textAlign: 'center', marginBottom: '10px'}}>
-                        Score
+                    <div className="text-white text-4xl" style={{ fontWeight: 500, textAlign: 'center', marginBottom: '15px'}}>
+                        {firstScore.county}, {firstScore.state}
                     </div>
                     <div className="text-white text-5xl" style={{ fontWeight: 500, textAlign: 'center' }}>
                         {firstScore.composite_score}

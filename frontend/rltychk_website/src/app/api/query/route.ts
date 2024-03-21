@@ -15,8 +15,9 @@ export async function GET(request: Request) {
   // sql logic here to find the data needed
   try {
     const result = await sql`
-      SELECT * FROM climate_score
-      WHERE county = ${county} AND state = ${state};
+    SELECT * FROM climate_score
+    WHERE LOWER(county) = LOWER(${county}) AND LOWER(state) = LOWER(${state});
+    
     `;
     const climateScores = result.rows;
     return NextResponse.json({ climateScores }, { status: 200 }); //200 response okay

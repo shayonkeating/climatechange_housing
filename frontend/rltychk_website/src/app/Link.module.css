@@ -1,0 +1,13 @@
+/* Link.module.css */
+.learnMoreLink {
+    color: white; /* or any other base color */
+    text-decoration: underline;
+    font-size: 1rem; /* Example size */
+    transition: color 0.3s ease;
+  }
+  
+  .learnMoreLink:hover, .learnMoreLink:focus {
+    color: #1E90FF; /* Color on hover */
+    text-decoration: none; /* Remove underline on hover, if desired */
+  }
+  
