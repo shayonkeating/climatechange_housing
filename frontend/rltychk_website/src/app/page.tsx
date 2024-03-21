@@ -22,7 +22,7 @@ export default function HomePage() {
   
       // Navigate to loading page
       await router.push('/loading');
-      await delay(1000)
+      await delay(780)
   
       // Send the user input to the API
       const response = await fetch(url, {

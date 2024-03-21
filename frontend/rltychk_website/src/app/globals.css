@@ -5,4 +5,19 @@
 body {
     background-color: #252525;
   }
+
+.explanation {
+  max-width: 450px; /* Adjust the max-width as needed */
+  white-space: normal; /* This allows the text to wrap */
+  line-height: 1.5; /* This adjusts the spacing between lines */
+  text-align: center; /* Centers the text if desired */
+  }
+
+.score-container {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center-align the flex children */
+  justify-content: center; /* Center content */
+  }
+  
   
