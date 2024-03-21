@@ -1,2 +1,6 @@
 processed_data/
 raw_data/
+
+# env variables
+.env
+.env.local
