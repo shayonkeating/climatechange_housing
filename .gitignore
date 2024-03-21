@@ -5,3 +5,4 @@ raw_data/
 .env
 .env.local
 .env.development.local
+.vercel
