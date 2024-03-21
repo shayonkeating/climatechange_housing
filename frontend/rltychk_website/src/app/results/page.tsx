@@ -52,10 +52,10 @@ interface ClimateScore {
             }}>
             Whoopsies climate cowboy 🤠! <br />
             Looks like you spelled something wrong <br />
-            or it doesn't exist.
+            or it doesn&apos;t exist.
             <Link href="/" passHref>
                 <div style={{cursor: 'pointer'}}>
-                    <a className="text-white underline text-2xl">👋 Let's take you back home...</a>
+                    <a className="text-white underline text-2xl">👋 Let&apos;s take you back home...</a>
                 </div>
             </Link>
         </div>

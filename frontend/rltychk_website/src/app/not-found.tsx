@@ -1,3 +1,4 @@
+// handling any 404 errors with this
 import React from 'react';
 import Link from 'next/link';
 
@@ -16,10 +17,10 @@ function NotFoundPage() {
           gap: '20px'
           }}>
           Whoopsies climate cowboy 🤠! <br />
-          Looks like you didn't input anything 🤔
+          Looks like you didn&apos;t input anything 🤔
           <Link href="/" passHref>
               <div style={{cursor: 'pointer'}}>
-                  <a className="text-white underline text-2xl">👋 Let's take you back home...</a>
+                  <a className="text-white underline text-2xl">👋 Let&apos;s take you back home...</a>
               </div>
           </Link>
       </div>
