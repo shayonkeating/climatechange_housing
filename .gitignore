@@ -1,5 +1,7 @@
 processed_data/
 raw_data/
+backend/processed_data/
+backend/completed/
 
 # env variables
 .env
