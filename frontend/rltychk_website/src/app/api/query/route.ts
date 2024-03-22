@@ -5,12 +5,15 @@ import { NextResponse } from 'next/server';
  
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const county = searchParams.get('county');
-  const state = searchParams.get('state');
+  let county = searchParams.get('county');
+  let state = searchParams.get('state');
  
   if (!county || !state) {
     return NextResponse.json({ error: 'County and state parameters are required' }, { status: 400 }); // 400 error req
   }
+
+  county = county.trim();
+  state = state.trim();
 
   // sql logic here to find the data needed
   try {

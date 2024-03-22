@@ -24,18 +24,18 @@ export default function HomePage() {
       await router.push('/loading');
       await delay(650)
   
-      // Send the user input to the API
+      // send the user input to the API
       const response = await fetch(url, {
-        method: 'GET', // Now using GET method
+        method: 'GET',
         headers: {
-          'Accept': 'application/json', // Adjusted header for GET
+          'Accept': 'application/json',
         },
       });
   
       const data = await response.json();
   
       if (response.ok) {
-        // Storing and navigating as before
+        // storing and navigating
         sessionStorage.setItem('climateData', JSON.stringify(data));
         await router.push('/results');
       } else {
@@ -44,7 +44,6 @@ export default function HomePage() {
       }
     } catch (error) {
       console.error("Navigation or Fetch error:", error);
-      // Handle the error appropriately
     }
   };
   

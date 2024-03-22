@@ -1,6 +1,5 @@
-// about page and how to use the website to its full advantage
-// what was used in this website and tools and metrics
-// how the liveability score is calculated
+// about page
+
 "use client"
 
 import React from "react";
@@ -88,33 +87,33 @@ export default function About() {
                 <p className="flex flex-col text-white text-2xl" style={{ fontWeight: 500, paddingLeft: '20px'}}>
                 Climate Modeling Powered by 🛠️
                 </p>
-                <div style={{display: 'flex', alignItems:'center'}}>
-                    <div style={{ padding: '20px' }}> {/* Add padding here */}
+                <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center'}}>
+                    <div style={{ padding: '20px' ,  maxWidth: '100%', height: 'auto' }}>
                     <Image src="/images/python.png" height={50} width={50} alt="Image_002" />
                     </div>
-                    <div style={{ padding: '20px' }}> {/* Repeat the pattern for each image */}
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
                     <Image src="/images/jupyter.jpg" height={50} width={50} alt="Image_003" />
                     </div>
-                    <div style={{ padding: '20px' }}>
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
                     <Image src="/images/postgresql.png" height={50} width={50} alt="Image_004" />
                     </div>
-                    <div style={{ padding: '20px' }}>
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
                     <Image src="/images/nextjs.png" height={50} width={50} alt="Image_005" />
                     </div>
-                    <div style={{ padding: '20px' }}>
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
                     <Image src="/images/nodejs.png" height={50} width={50} alt="Image_006" />
                     </div>
-                    <div style={{ padding: '20px' }}>
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
                     <Image src="/images/prisma.png" height={50} width={50} alt="Image_007" />
                     </div>
-                    <div style={{ padding: '20px' }}>
-                    <Image src="/images/neon.png" height={50} width={50} alt="Image_007" />
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
+                    <Image src="/images/neon.png" height={50} width={50} alt="Image_008" />
                     </div>
-                    <div style={{ padding: '20px' }}>
-                    <Image src="/images/vercel.png" height={50} width={50} alt="Image_007" />
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
+                    <Image src="/images/vercel.png" height={50} width={50} alt="Image_009" />
                     </div>
-                    <div style={{ padding: '20px' }}>
-                    <Image src="/images/ts.png" height={50} width={50} alt="Image_007" />
+                    <div style={{ padding: '20px',  maxWidth: '100%', height: 'auto' }}>
+                    <Image src="/images/ts.png" height={50} width={50} alt="Image_010" />
                     </div>
                 </div>
                 <p className="flex flex-col text-white text-s" style={{ fontWeight: 200, padding: '50', textAlign: 'center'}}>

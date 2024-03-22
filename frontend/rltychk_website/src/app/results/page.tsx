@@ -72,8 +72,8 @@ interface ClimateScore {
         explanation = (
             <>
             Ouch ❤️‍🩹! This place will be GREATLY impacted by climate change in the future. 
-            A high score value means that the climate is not stable and will change in the future.
-            However, analyze this result in context! This is seen as massive heat waves and changes in precipitation.
+            A high score means that the climate is not stable and will change in the (not so) distant future.
+            However, analyze this result in context! This is seen as heat waves and changes in precipitation.
             🙅‍♂️
             </>
         );
@@ -81,8 +81,8 @@ interface ClimateScore {
         explanation = (
             <>
             This area will be definitely be impacted by climate change. Analyze this result in context!
-            Places with this score fall further north so that could mean less snow ☃️ and warmer summers. 😎
-            The ski industry will not like this. ⛷️
+            Places with this score fall further north so that could mean less snow ☃️ and/or warmer summers. 😎
+            Get ready to sweat a little more (or a lot more further south)!
             </>
         );
       } else if (scoreValue >= 40) {
