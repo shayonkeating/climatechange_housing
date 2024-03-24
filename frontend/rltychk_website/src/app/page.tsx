@@ -14,6 +14,37 @@ export default function HomePage() {
   const [state, setState] = useState(''); // handle the state for user input of state
   const [county, setCounty] = useState(''); // handle the state for user input of county
   const delay = (ms: number | undefined) => new Promise(resolve => setTimeout(resolve, ms));
+  const randSubmit = async () => {
+    console.log("randSubmit called");
+    try {
+      const url = `/api/random`;
+  
+      // Navigate to loading page
+      await router.push('/loading');
+      await delay(650)
+  
+      // send the user input to the API
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        // storing and navigating
+        sessionStorage.setItem('climateData', JSON.stringify(data));
+        await router.push('/results');
+      } else {
+        console.error("Error fetching data:", data.error);
+        await router.push('/error');
+      }
+    } catch (error) {
+      console.error("Navigation or Fetch error:", error);
+    }
+  };
   const handleSubmit = async () => {
     console.log("handleSubmit called");
     try {
@@ -66,10 +97,16 @@ export default function HomePage() {
             ))}
           </select>
         </div>
-        <button type="button" onClick={handleSubmit} // correctly handles onsubmit req
-          className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-5 linear">
-          Start the Liveability Model
-        </button>
+        <div className="flex flex-row items-center space-x-4">
+          <button type="button" onClick={handleSubmit} 
+            className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-500 ease-linear">
+            Start the Liveability Model
+          </button>
+          <button type="button" onClick={randSubmit} 
+            className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-500 ease-linear">
+            Surprise Me
+          </button>
+        </div>
       </div>
     </div><div className='absolute bottom-0 left-0 right-0 p-10'>
         <p className="flex flex-col text-white text-s" style={{ fontWeight: 200, padding: '50', textAlign: 'center' }}>
