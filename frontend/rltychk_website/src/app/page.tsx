@@ -17,6 +17,7 @@ export default function HomePage() {
   const randSubmit = async () => {
     console.log("randSubmit called");
     try {
+      sessionStorage.clear();
       const url = `/api/random`;
   
       // Navigate to loading page
@@ -28,6 +29,7 @@ export default function HomePage() {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
+          'Cache-Control': 'no-cache',
         },
       });
   
@@ -86,10 +88,10 @@ export default function HomePage() {
       <TypewriterEffect words={words} />
       <div className="flex flex-col items-center space-y-4 mt-12">
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-          <label htmlFor="countyInput" className="w-80 h-10 rounded-xl text-white text-m flex items-center justify-center">
+          <label htmlFor="countyInput" className="w-75 h-10 rounded-xl text-white text-m flex items-center justify-center">
             Enter a US county to get started:
           </label>
-          <input id="countyInput" type="text" placeholder="ie San Diego..." value={county} onChange={(e) => setCounty(e.target.value)} className="w-40 h-10 rounded-xl border dark:border-white border-transparent text-black px-4" />
+          <input id="countyInput" type="text" placeholder="ie San Diego..." value={county} onChange={(e) => setCounty(e.target.value)} className="flex flex-row w-40 h-10 rounded-xl border dark:border-white border-transparent text-black px-4" />
           <select id="dropdownMenu" value={state} onChange={(e) => setState(e.target.value)}  className="w-35 h-10 rounded-xl border dark:border-white border-transparent bg-white text-black px-4">
             <option value="">Select a State</option>
             {states.map((state, index) => (
@@ -97,13 +99,13 @@ export default function HomePage() {
             ))}
           </select>
         </div>
-        <div className="flex flex-row items-center space-x-4">
+        <div className="flex flex-row items-center space-x-2">
           <button type="button" onClick={handleSubmit} 
-            className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-500 ease-linear">
+            className="px-4 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-500 ease-linear">
             Start the Liveability Model
           </button>
           <button type="button" onClick={randSubmit} 
-            className="px-6 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-500 ease-linear">
+            className="px-4 py-3 bg-blue-800 text-white rounded-xl hover:bg-blue-600 transition duration-500 ease-linear">
             Surprise Me
           </button>
         </div>
